@@ -17,6 +17,8 @@ function printAge (age) {
 
     // within its nearest enclosing block, the if's block
 
+    //note, let, var, and const will behave differently when used within a function and called upon outside. in short, var can leak outside of it's local variable function. var are NOT block scoped, they are function scoped. That means they available outside of the if statement block
+
     const constAge = age * 2;
     console.log(constAge);
   }
@@ -73,3 +75,74 @@ function init() {
   //const b = obj.b
 
   console.log(obj.a) // will return 1
+
+  const array = [1, 2, 3, 4, 5];
+  const [zerothEle, firstEle] = array;
+
+  //ZerothEle and firstEle both are elements that point towards the 0th and 1st indices in the array
+
+  
+
+  //it's not explained very well BUT here goes
+
+  function createUser(name){
+    const discordName = "@" + name;
+
+    let reputation = 0; //this is a new metric within the createUser function. This is a private variable (local). It cannot be accessed directly within the object. It can only be accessed by the closures we defined. 
+
+    const getReputation = () => reputation; //the getReputation would be a closure that is defined, Likewise, so is the giveReputation function. 
+
+    const giveReputation = () => reputation++;
+    
+    return {name, discordName, getReputation, giveReputation};
+  }
+
+  const josh = createUser("josh");
+  josh.giveReputation();
+  josh.giveReputation();
+
+  console.log({ // logs { discordName: "@josh", reputation: 2 }
+    discordName: josh.discordName,
+    reputation: josh.getReputation()
+  });
+
+
+  //IIEF or immediate invoked function expression is when you create a factory in parantheses and immediately call (invoke it). This is done to wrap sections of code together and to hide variables and function.
+
+  const calculator = ( function (){
+      const add = (a, b) => a + b;
+      const sub = (a, b) => a - b;
+      const mul = (a, b) => a * b;
+      const div = (a, b) => a / b;
+      return {add, sub, mul, div};
+        })(); //so the () here is mandatory otherwise the the whole code doesn't run. The calculator color in the console.log below even goes to yellow rather than blue. dunno why.
+
+console.log(calculator.add(3,5)); //8
+console.log(calculator.sub(6,2)); //4
+console.log(calculator.mul(8,4));//32
+console.log(calculator.div(40,8));//5 
+
+//so the notes are saying that by adding the () at the end, that is what is wrapping the factory function within parantheses, and immediately calling it. The result is returning the object stored in calculator. This is the "hiding/ tuckng away" private variables within the function
+
+//Encapsulation is the process of bundling data, code, or w.e into a single unit, with selective access to the things inside of that unit. That is the wrapping. 
+
+//through Encapsulation, namespacing is developed, which is how naming collisions is avoided. Namespacing being the common word add might want to be re-used to add strings instead, or arrays. But through encapsulation, it's used in the module called calculator, which generates an object with that name. calculator.add(a, b) or calculator.sub(a, b). This way, it is explicitly defined
+
+
+
+
+//knowledge check notes
+
+
+//BLOCKS AND SCOPING
+
+//https://wesbos.com/javascript-scoping
+
+//was good, talked about how you cannot have avvess to variables within functions, unless it is var, because that leaks out as a local variable. Functions cannot be called upon within other function as global functions... if that makes sense. 
+
+
+//CLOSURE AND LEXICAL SCOPING
+
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures#closure
+
+//closure is basically calling upon/returning the a local function inside another function. Thus making access to the inside function unavaiable and creating a factory that cannot be accessed from the outside. Lexical scoping is an inside function having access to every it's surrounding or "global" function 
