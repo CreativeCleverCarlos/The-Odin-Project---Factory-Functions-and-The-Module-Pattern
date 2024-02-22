@@ -146,3 +146,78 @@ console.log(calculator.div(40,8));//5
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures#closure
 
 //closure is basically calling upon/returning the a local function inside another function. Thus making access to the inside function unavaiable and creating a factory that cannot be accessed from the outside. Lexical scoping is an inside function having access to every it's surrounding or "global" function 
+
+
+//IIFEs - immediately invoked function expression
+
+//https://adripofjavascript.com/blog/drips/an-introduction-to-iffes-immediately-invoked-function-expressions.html
+
+// it's really short but basically its just this
+
+(function (){
+  //logic here
+})(); // this is to make it so there is no global name that is used for one (it's wrapped up in a bracket)
+
+//for two, it makes it so that it isn't run accidently by calling on its name
+
+//also, it prevents there from being any name collisions. 
+
+//it's actually really rather simple. It helps with security, cause now the inside of it can't be breached from the dom, and it doesn't create any global namespace
+
+(function declaringAName(){
+  let name2 = "Sarah"
+  console.log(name2)
+})();
+
+let name2 = "Amanda" //this is a global variable. dis is baad
+console.log(name2)
+
+
+//MODULE
+
+//https://dev.to/tomekbuszewski/module-pattern-in-javascript-56jm
+
+//A module is described as a singleton class. It only has one instance and "exposes its members, but it doesn't have any kind of internal state"
+
+//it's defined by having aIIFE created first
+
+const SomeModule = (function() {})();
+
+const Formatter = (function(){
+  const log = (message) => console.log(`[${Date.now()}] Logger: ${message}`);
+})();
+
+/**if**/
+// Formatter.log("hello") //this returns uncaught error, because it doesn't return anything
+
+//so in short, accessing a module, is actually accessing specifically whatever it returns. It's best to avoid returning a single function, return an object with it
+
+const FormatterDoneRight = (function(){
+  const log = (message) => console.log(`[${Date.now()}] Logger: ${message}`);
+  const makeUppercase = (text) => {
+    log("Making uppercase");
+    return text.toUpperCase();
+  };
+  return {
+    makeUppercase,
+  }
+})(); //remember to add the () to the end, otherwise it won't be a Module
+
+console.log(FormatterDoneRight.makeUppercase("tomek")); //returns TOMEK 
+
+//so this get's a lot more complicated... but what ive seen in other videos is that this is the old way of doing things, and the new way is legit done by classes 
+
+
+//this was how it was done before ES6
+(function(){
+  //declare private variables and/ or functions
+
+  return {
+    //declare public variables and/or functions
+    //when returning, it's good practice to return objects because it can return all the data at once
+    
+  }
+})();
+
+
+//in short, just stick to classes now. If I have to come back to learn this I can, thats fine. I can for the most part understand what I'm seeing and follow along, I just need to practice it is all and copy out what I see in code
