@@ -220,4 +220,7 @@ console.log(FormatterDoneRight.makeUppercase("tomek")); //returns TOMEK
 })();
 
 
-//in short, just stick to classes now. If I have to come back to learn this I can, thats fine. I can for the most part understand what I'm seeing and follow along, I just need to practice it is all and copy out what I see in code
+
+//it's better practice to use factories because there is more security as the code that I want to be accessed to will be wrapped up in a return object, and the code that I don't want will not be returned.
+
+//also, factories are the entry to utilizing APIS.
